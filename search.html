@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <title>StockRisk | Search</title>
+    <style>
+        :root {
+            --blue: #3D99FE;
+            --cyan: #6DF0F0;
+            --yellow: #D9F576;
+            --black: #100F15;
+        }
+
+        body {
+            background-image: url('bg.png');
+            background-size: cover;
+            background-color: var(--black);
+        }
+
+        #left,
+        #right {
+            padding: 20px 30px 10px 0;
+        }
+
+        #collapsed-sidebar {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 4px 20px 5px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 0px 20px 20px 0px;
+            margin: 0;
+            height: 92vh;
+            position: fixed;
+            z-index: 1;
+        }
+
+        #search-bar {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 4px 20px 5px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 15px;
+            margin: 0;
+        }
+
+        #toggle-theme {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 4px 20px 5px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 50px;
+            height: 40px;
+            width: 40px;
+            margin: 0;
+        }
+
+        #theme-btn {
+            height: 40px;
+            width: 40px;
+            padding: 0px;
+        }
+
+        #main-div {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 4px 20px 5px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 20px;
+            margin: 0;
+            padding: 20px 15px;
+        }
+
+        #main-heading,
+        #sub-heading,
+        #heading-budget,
+        h5 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #sub-heading {
+            color: #a5a5a5;
+        }
+
+        #main-tabs-div {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 20px;
+            margin: 0px;
+            border: none;
+            padding: 10px 10px 20px 10px;
+        }
+
+        #people-also-watch {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 4px 20px 5px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 10px;
+            margin: 0;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+        }
+
+        #heading,
+        h5,
+        #news-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #name,
+        #value {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 10px;
+            margin: 0;
+            padding: 10px 20px;
+        }
+
+        #news-image-div,
+        #news-div {
+            background: rgba(52, 52, 52, 0.25);
+            box-shadow: 2px 1px 10px 5px rgba(0, 0, 0, 0.20);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 15px;
+            margin: 0 10px;
+            padding: 10px;
+        }
+
+        #news-image-div {
+            overflow: hidden;
+        }
+
+        #news-div {
+            padding: 20px;
+            margin-left: 10px;
+        }
+
+        #value {
+            color: var(--cyan);
+        }
+
+        #price {
+            color: rgb(234, 234, 234);
+        }
+
+        #recent-activity {
+            background: rgba(52, 52, 52, 0.36);
+            box-shadow: 2px 4px 20px 5px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            margin: 0;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+        }
+
+        #current-price,
+        #percent-change {
+            display: inline-block;
+        }
+
+        #current-price {
+            margin: 0 10px 0 0;
+            color: var(--cyan);
+        }
+
+        #percent-change {
+            margin: 0 0px 0 10px;
+            color: #c4c4c4;
+        }
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 14px;
+            transition: 0.3s;
+            font-size: 17px;
+            color: #7b7b7b;
+            font-weight: lighter;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            color: var(--blue);
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            color: var(--cyan);
+            text-decoration: underline;
+        }
+
+        .tabcontent {
+            background: rgba(52, 52, 52, 0.10);
+            box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            /* Note: backdrop-filter has minimal browser support */
+            border-radius: 10px;
+            margin: 0px;
+            border: none;
+            padding: 20px;
+        }
+
+        #corporate-governance,
+        #description-under-profile,
+        #address-under-profile,
+        #sector-under-profile,
+        #ind-under-profile,
+        #full-emp-under-profile,
+        #key-exe-table-body,
+        #news-sub-text {
+            color: #7b7b7b;
+        }
+
+        #news-image {
+            /*max-height: 120px;*/
+            border-radius: 10px;
+            max-width: inherit;
+            vertical-align: middle;
+            height: 100%;
+        }
+
+        @media (max-width: 700px) {
+
+            
+            #toggle-theme,
+            #tabs,
+            #left,
+            #rec-act-pp-al-wt {
+                display: none;
+            }
+
+            #collapsed-sidebar {
+                height: auto;
+            }
+
+            #right {
+                padding: 20px;
+            }
+
+            #mob-menu {
+                background: rgba(52, 52, 52, 0.36);
+                box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.25);
+                backdrop-filter: blur(4px);
+                /* Note: backdrop-filter has minimal browser support */
+                border-radius: 10px;
+                margin: 0;
+                padding: 4px;
+            }
+
+            #mob-menu-div {
+                padding-right: 0;
+            }
+        }
+
+        @media (min-width: 700px) {
+            #mob-menu-div {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row text-white">
+            <div class="col-lg-1" id="left">
+                <div class="col" id="collapsed-sidebar">
+                    <div class="row mx-0">
+                        <button class="btn text-white" type="button" style="padding: 20px 20px;"
+                            data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                            aria-controls="offcanvasExample">
+                            <img src="menu.png" width="35px" />
+                        </button>
+                    </div>
+                    <div id="tabs">
+
+                        <div class="row mx-0 my-4 text-center">
+                            <a href="home.html" class="btn" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Home">
+                                <img src="home-icon.png" width="22px" />
+                            </a>
+                        </div>
+                        <div class="row mx-0 my-4 text-center  ">
+                            <a href="saved.html" class="btn" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Saved portfolios">
+                                <img src="Bookmark_fill.png" width="27px" />
+                            </a>
+                        </div>
+                        <div class="row mx-0 my-4 text-center ">
+                            <a href="personalized.html" class="btn" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Portfolio">
+                                <img src="portfolio-icon-main.png" width="24px" />
+                            </a>
+                        </div>
+                        <div class="row mx-0 my-4 text-center">
+                            <a href="features.html" class="btn" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Features">
+                                <img src="features-icon.png" width="22px" />
+                            </a>
+                        </div>
+                        <div class="row mx-0 my-4 text-center border-start">
+                            <a href="search.html" class="btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Search">
+                                <img src="search-icon-focus.png" width="30px" />
+                            </a>
+                        </div>
+                        <div class="row mx-0 my-4 text-center">
+                            <a href="home.html" class="btn" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Learn">
+                                <img src="learn-icon.png" width="22px" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-11" id="right">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-2" id="mob-menu-div">
+                        <div class="col" id="mob-menu">
+                            <a class="btn px-1" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                                aria-controls="offcanvasExample">
+                                <img src="menu.png" width="25px" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="col" id="search-bar">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-transparent border-0 pe-0" id="search-icon"><img
+                                        src="search-bar-icon.png" height="60%" /></span>
+                                <input type="text" class="form-control bg-transparent border-0 text-white"
+                                    placeholder="Search" aria-describedby="search-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 d-flex justify-content-end" id="toggle-theme-div">
+                        <div class="" id="toggle-theme">
+                            <button class="btn" id="theme-btn"><img src="moon.png" width="50%" /></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-9 col-sm-12 order-lg-first">
+                        <div class="row" id="main-div">
+                            <h3 id="main-heading">Tata Consultancy Services Limited (TCS.NS)</h3>
+                            <p id="sub-heading">NSE - NSE Real Time Price. Currency in INR</p>
+                            <div>
+                                <h1 id="current-price">3,664.95 </h1><span id="percent-change"> -26.15 (-0.71%)</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3" id="main-tabs-div">
+                            <div class="col mt-2">
+                                <div class="tab">
+                                    <button class="tablinks" onclick="opentabbbb(event, 'Overview')"
+                                        id="defaultOpen"><b> Overview</b></button>
+                                    <button class="tablinks" onclick="opentabbbb(event, 'Statistics')"><b>
+                                            Statistics</b></button>
+                                    <button class="tablinks" onclick="opentabbbb(event, 'Financials')"><b>
+                                            Financials</b></button>
+                                    <button class="tablinks" onclick="opentabbbb(event, 'Holdings')"><b>
+                                            Holders</b></button>
+                                    <button class="tablinks" onclick="opentabbbb(event, 'News')"><b> News</b></button>
+                                    <button class="tablinks" onclick="opentabbbb(event, 'Profile')"><b>
+                                            Profile</b></button>
+                                </div>
+                                <div id="Overview" class="tabcontent">
+                                    <div class="row my-3" id="overview-chart"></div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table text-secondary">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Previous Close</td>
+                                                        <td>97.74</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Previous Close</td>
+                                                        <td>97.74</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Previous Close</td>
+                                                        <td>97.74</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table class="table text-secondary">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Market Cap</td>
+                                                        <td>97.74</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Statistics" class="tabcontent">
+                                    <div class="row">
+                                        <div class="col text-secondary"></div>
+                                        <div class="col text-secondary"></div>
+                                    </div>
+                                </div>
+                                <div id="Financials" class="tabcontent">
+                                    <div class="row" >
+                                        <h5 class="text-light">Balance Sheet</h5>
+                                        <div class="p-3">
+                                            <table class="table text-secondary">
+                                                <thead id="balance-sheet-table-head">
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="balance-sheet-table-body">
+                                                    <tr>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <h5 class="text-light">Income Statement</h5>
+                                        <div class="p-3">
+                                        <table class="table text-secondary">
+                                            <thead id="income-statement-table-head">
+                                            </thead>
+                                            <tbody id="income-statement-table-body">
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                        <h5 class="text-light">Cash Flow</h5>
+                                        <div class="p-3">
+                                            <table class="table text-secondary">
+                                                <thead id="cash-flow-table-head">
+                                                    
+                                                </thead>
+                                                <tbody id="cash-flow-table-body">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Holdings" class="tabcontent">
+                                    <h5 class="text-ight">Major Holders</h5>
+                                    <p style="color: #a5a5a5; padding-left:10px">Breakdown</p>
+                                    <table class="table text-secondary ">
+                                        <tbody id="major-holders-table-body">
+                                            <tr>
+                                                <td>26%</td>
+                                                <td>% of Shares Held by All Insider</td>
+                                            </tr>
+                                            <tr>
+                                                <td>26%</td>
+                                                <td>% of Shares Held by All Insider</td>
+                                            </tr>
+                                            <tr>
+                                                <td>26%</td>
+                                                <td>% of Shares Held by All Insider</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="News" class="tabcontent">
+                                    <div class="row p-2">
+                                        <div class="col-lg-3" id="news-image-div">
+                                            <img id="news-image"
+                                                src="https://s.yimg.com/ny/api/res/1.2/Cpp2edvaFKGqYHRaCfesPg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTUyNztjZj13ZWJw/https://s.yimg.com/uu/api/res/1.2/u2yO5rIIVnSG95ZHkNN6Rw--~B/aD00MDA7dz03Mjg7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/smartasset_475/d6847b575ada265c3646941a99bc422e"
+                                                alt="news image" />
+                                        </div>
+                                        <div class="col-lg-8" id="news-div">
+                                            <h6 id="news-heading">Lorem ipsum dolar sit amet </h6>
+                                            <p id="news-sub-text">Sed ut perspiciatis unde omnis iste natus error sit
+                                                voluptatem accusantium doloremque laudantium totam rem aperiam, eaque
+                                                ipsa quae ab illo inventore veritatis et quasi architecto</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Profile" class="tabcontent">
+                                    <div class="container-fluid p-2">
+                                        <div class="row">
+                                            <h5 class="mt-2 mb-3 text-light"><b id="name-of-company-under-profile">Tata
+                                                    Consultancy Services Limited</b></h5>
+                                            <div class="col-lg-6 my-2">
+                                                <p id="address-under-profile">TCS House
+                                                    Raveline Street Fort
+                                                    Mumbai 400001
+                                                    India</p>
+                                                <p><a href="" id="website-link-under-profile">https://www.tcs.com</a>
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-6 my-2">
+                                                <p id="sector-under-profile">Sector(s): Technology</p>
+                                                <p id="ind-under-profile">Industry: Information Technology Services</p>
+                                                <p id="full-emp-under-profile">Full Time Employees: 556,986</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <h5 class="text-light">Key Executives</h5>
+                                            <div class="p-3">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr class="text-secondary">
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">Pay</th>
+                                                            <th scope="col">Exercised</th>
+                                                            <th scope="col">Year Born</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="key-exe-table-body">
+                                                        <tr>
+                                                            <td>wedefgtfvdcsxaa</td>
+                                                            <td>a</td>
+                                                            <td>s</td>
+                                                            <td>a</td>
+                                                            <td>a</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <h5 class="text-light">Description</h5>
+                                            <p id="description-under-profile">Lorem ipsum dolor sit amet, consectetur
+                                                adipiscing elit. Nulla commodo odio sed condimentum convallis. Aliquam
+                                                sed nunc turpis. Nullam commodo non sem in vulputate. Duis pulvinar
+                                                interdum metus a egestas. Suspendisse in leo felis. Integer sit amet
+                                                urna sit amet urna condimentum lacinia. Pellentesque ultrices elit
+                                                lacus, nec sodales quam dapibus sit amet.</p>
+                                        </div>
+                                        <div class="row">
+                                            <h5 class="text-light">Corporate Governance</h5>
+                                            <p id="corporate-governance">Lorem ipsum dolor sit amet, consectetur
+                                                adipiscing elit. Nulla commodo odio sed condimentum convallis. Aliquam
+                                                sed nunc turpis. Nullam commodo non sem in vulputate. Duis pulvinar
+                                                interdum metus a egestas. Suspendisse in leo felis. Integer sit amet
+                                                urna sit amet urna condimentum lacinia. Pellentesque ultrices elit
+                                                lacus, nec sodales quam dapibus sit amet.</p>
+                                        </div>
+                                        <div class="row">
+                                            <h5 class="text-light">Map Location</h5>
+                                            <div id="map-under-profile"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg-3" id="rec-act-pp-al-wt">
+                        <div class="row" id="recent-activity-div">
+                            <div class="col" id="recent-activity">
+                                <h5 id="heading">Recent activity</h5>
+                                <div class="mt-4">
+                                    <div class="row p-2">
+                                        <div class="col bg-transparent mx-2" id="name">
+                                            <b><a href=""
+                                                    style="text-decoration: none; color: rgb(207, 207, 207); font-size: small;">AAPL</a></b>
+                                            <h5 id="price">4,567</h5>
+                                        </div>
+                                        <div class="col bg-transparent mx-2 d-flex justify-content-end" id="value">
+                                            <div>
+                                                <p class="my-0" style="font-size: small; text-align: right;">+202.77</p>
+                                                <p class="my-0">(+6.61%)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2">
+                                        <div class="col bg-transparent mx-2" id="name">
+                                            <b><a href=""
+                                                    style="text-decoration: none; color: rgb(207, 207, 207); font-size: small;">TCS.NS</a></b>
+                                            <h5 id="price">4,567</h5>
+                                        </div>
+                                        <div class="col bg-transparent mx-2 d-flex justify-content-end" id="value">
+                                            <div>
+                                                <p class="my-0" style="font-size: small; text-align: right;">+202.77</p>
+                                                <p class="my-0">(+6.61%)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3" id="people-also-watch-div">
+                            <div class="col" id="people-also-watch">
+                                <h5 id="heading">People Also Watch</h5>
+                                <div class="mt-4">
+                                    <div class="row p-2">
+                                        <div class="col bg-transparent mx-2" id="name">
+                                            <b><a href=""
+                                                    style="text-decoration: none; color: rgb(207, 207, 207); font-size: small;">ETH-USD</a></b>
+                                            <h5 id="price">4,567</h5>
+                                        </div>
+                                        <div class="col bg-transparent mx-2 d-flex justify-content-end" id="value">
+                                            <div>
+                                                <p class="my-0" style="font-size: small; text-align: right;">+202.77</p>
+                                                <p class="my-0">(+6.61%)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2">
+                                        <div class="col bg-transparent mx-2" id="name">
+                                            <b><a href=""
+                                                    style="text-decoration: none; color: rgb(207, 207, 207); font-size: small;">AMZN</a></b>
+                                            <h5 id="price">4,567</h5>
+                                        </div>
+                                        <div class="col bg-transparent mx-2 d-flex justify-content-end" id="value">
+                                            <div>
+                                                <p class="my-0" style="font-size: small; text-align: right;">-202.77</p>
+                                                <p class="my-0">(-6.61%)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2">
+                                        <div class="col bg-transparent mx-2" id="name">
+                                            <b><a href=""
+                                                    style="text-decoration: none; color: rgb(207, 207, 207); font-size: small;">GOOG</a></b>
+                                            <h5 id="price">2,567</h5>
+                                        </div>
+                                        <div class="col bg-transparent mx-2 d-flex justify-content-end" id="value">
+                                            <div>
+                                                <p class="my-0" style="font-size: small; text-align: right;">+202.77</p>
+                                                <p class="my-0">(+6.61%)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">StockRisk</h5>
+            <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <div class="row mx-0 my-4">
+                    <div class="col-1">
+                        <img class="mt-0" src="home-icon.png" width="22px" />
+                    </div>
+                    <div class="col">
+                        <h4 class="mx-2 mt-3 d-inline text-white"><a href="home.html"
+                                style="color: #a5a5a5; text-decoration: none;">Home</a></h4>
+                    </div>
+                </div>
+                <div class="row mx-0 my-4">
+                    <div class="col-1">
+                        <img class="mt-0" src="Bookmark_fill.png" width="22px" />
+                    </div>
+                    <div class="col">
+                        <h4 class="mx-2 mt-3 d-inline text-white"><a href=""
+                                style="color: #a5a5a5; text-decoration: none;">Saved</a></h4>
+                    </div>
+                </div>
+                <div class="row mx-0 my-4">
+                    <div class="col-1">
+                        <img class="mt-0" src="portfolio-icon-main.png" width="22px" />
+                    </div>
+                    <div class="col">
+                        <h4 class="mx-2 mt-3 d-inline text-white"><a href=""
+                                style="color: #a5a5a5; text-decoration: none;">Portfolio</a></h4>
+                    </div>
+                </div>
+                <div class="row mx-0 my-4">
+                    <div class="col-1">
+                        <img class="mt-0" src="features-icon.png" width="22px" />
+                    </div>
+                    <div class="col">
+                        <h4 class="mx-2 mt-3 d-inline text-white"><a href="features.html"
+                                style="color: #a5a5a5; text-decoration: none;">Features</a></h4>
+                    </div>
+                </div>
+                <div class="row mx-0 my-4">
+                    <div class="col-1">
+                        <img class="mt-0" src="search-icon-focus.png" width="22px" />
+                    </div>
+                    <div class="col">
+                        <h4 class="mx-2 mt-3 d-inline text-white"><a href="" style="color: #6DF0F0; ">Search</a></h4>
+                    </div>
+                </div>
+                <div class="row mx-0 my-4">
+                    <div class="col-1">
+                        <img class="mt-0" src="learn-icon.png" width="22px" />
+                    </div>
+                    <div class="col">
+                        <h4 class="mx-2 mt-3 d-inline text-white"><a href=""
+                                style="color: #a5a5a5; text-decoration: none;">Learn</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function opentabbbb(evt, tabsName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabsName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
+<!--
+overview
+statistics
+financials
+holders
+news
+profile
+-->
